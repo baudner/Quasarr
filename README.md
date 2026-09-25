@@ -193,6 +193,7 @@ docker run -d \
 | `USER` / `PASS`    | Optional, but recommended! Username / Password to protect the web UI.                                      |
 | `AUTH`             | Authentication mode. Supported values: `form` or `basic`.                                                  |
 | `TZ`               | Optional. Timezone. Incorrect values may cause HTTPS/SSL issues.                                           |
+| `TIMEOUT_SLOW_MODE_MULTIPLIER` | Optional. Factor applied to timeouts with slow mode enabled (default `3`). Raise it if slow sources still time out. |
 
 # Manual setup
 

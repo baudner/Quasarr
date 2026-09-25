@@ -2,6 +2,7 @@
 # Quasarr
 # Project by https://github.com/rix1337
 
+import os
 import re
 import sys
 
@@ -14,7 +15,21 @@ FALLBACK_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537
 
 # Standard request timeout budgets.
 # Slow mode multiplies each base timeout by this factor.
-TIMEOUT_SLOW_MODE_MULTIPLIER = 3
+# Can be raised via the TIMEOUT_SLOW_MODE_MULTIPLIER environment variable.
+TIMEOUT_SLOW_MODE_DEFAULT_MULTIPLIER = 3
+
+
+def _read_slow_mode_multiplier(value, default=TIMEOUT_SLOW_MODE_DEFAULT_MULTIPLIER):
+    try:
+        multiplier = int(str(value).strip())
+    except (TypeError, ValueError):
+        return default
+    return multiplier if multiplier >= 1 else default
+
+
+TIMEOUT_SLOW_MODE_MULTIPLIER = _read_slow_mode_multiplier(
+    os.environ.get("TIMEOUT_SLOW_MODE_MULTIPLIER")
+)
 
 # Table storing per-timeout slow mode flags.
 TIMEOUT_SLOW_MODE_TABLE = "timeout_slow_mode"
